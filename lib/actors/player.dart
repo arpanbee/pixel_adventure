@@ -5,6 +5,8 @@ import 'package:pixel_adventure/pixel_adventure.dart';
 
 enum PlayerState { idle, running }
 
+enum PlayerDirection { left, right, none }
+
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure> {
   String character;
@@ -13,11 +15,22 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation runningAnimation;
   final double stepTime = 0.05;
+  
+  PlayerDirection playerDirection = PlayerDirection.left;
+  double moveSpeed = 100;
+  Vector2 velocity = Vector2.zero();
 
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
     return super.onLoad();
+  }
+  
+  
+  @override
+  void update(double dt) {
+    _updatePlayerMovement(dt);
+    super.update(dt);
   }
 
   void _loadAllAnimations() {
@@ -43,5 +56,23 @@ class Player extends SpriteAnimationGroupComponent
         textureSize: Vector2.all(32),
       ),
     );
+  }
+  
+  void _updatePlayerMovement(double dt){
+      double dx = 0.0;
+      switch(playerDirection){
+          case PlayerDirection.left:
+            dx -= moveSpeed;
+            break;
+          case PlayerDirection.right:
+            dx += moveSpeed;
+            break;
+          case PlayerDirection.none:
+            break;
+          default:
+      }
+      
+      velocity = Vector2(dx,0.0);
+      position += velocity;
   }
 }
