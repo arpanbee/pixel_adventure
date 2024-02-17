@@ -73,6 +73,6 @@ class Player extends SpriteAnimationGroupComponent
       }
       
       velocity = Vector2(dx,0.0);
-      position += velocity;
+      position += velocity * dt;
   }
 }
