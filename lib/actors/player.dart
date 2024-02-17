@@ -19,6 +19,7 @@ class Player extends SpriteAnimationGroupComponent
   PlayerDirection playerDirection = PlayerDirection.left;
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
+  bool isFacingRight = true;
 
   @override
   FutureOr<void> onLoad() {
@@ -62,12 +63,19 @@ class Player extends SpriteAnimationGroupComponent
       double dx = 0.0;
       switch(playerDirection){
           case PlayerDirection.left:
+            if(isFacingRight){
+                flipHorizontallyAroundCenter();
+                isFacingRight = false;
+            }
+            current = PlayerState.running;
             dx -= moveSpeed;
             break;
           case PlayerDirection.right:
+            current = PlayerState.running;          
             dx += moveSpeed;
             break;
           case PlayerDirection.none:
+            current = PlayerState.idle;
             break;
           default:
       }
