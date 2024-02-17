@@ -22,14 +22,8 @@ class Player extends SpriteAnimationGroupComponent with HasGameRef<PixelAdventur
     }
     
     void _loadAllAnimations(){
-        idleAnimation = SpriteAnimation.fromFrameData(game.images.fromCache('Main Characters/Ninja Frog/Idle (32x32).png'), SpriteAnimationData.sequenced(
-                amount: 11,
-                stepTime: stepTime,
-                textureSize: Vector2.all(32),
-            ),
-        );
-        
-        runningAnimation = _spriteAnimation();
+        idleAnimation = _spriteAnimation('Idle', 11);
+        runningAnimation = _spriteAnimation('Run', 12);
     
         animations = { 
             PlayerState.idle: idleAnimation, 
@@ -37,13 +31,13 @@ class Player extends SpriteAnimationGroupComponent with HasGameRef<PixelAdventur
         };
         
     
-        current = PlayerState.running;
+        current = PlayerState.idle;
     }
     
-    SpriteAnimation _spriteAnimation(){
+    SpriteAnimation _spriteAnimation(String state, int amount){
         return SpriteAnimation.fromFrameData(
-            game.images.fromCache('Main Characters/$character/Run (32x32).png'), SpriteAnimationData.sequenced(
-                amount: 12,
+            game.images.fromCache('Main Characters/$character/$state (32x32).png'), SpriteAnimationData.sequenced(
+                amount: amount,
                 stepTime: stepTime,
                 textureSize: Vector2.all(32),
             ));
