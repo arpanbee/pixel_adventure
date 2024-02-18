@@ -16,7 +16,7 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation runningAnimation;
   final double stepTime = 0.05;
   
-  PlayerDirection playerDirection = PlayerDirection.left;
+  PlayerDirection playerDirection = PlayerDirection.none;
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
   bool isFacingRight = true;
@@ -71,6 +71,10 @@ class Player extends SpriteAnimationGroupComponent
             dx -= moveSpeed;
             break;
           case PlayerDirection.right:
+            if(!isFacingRight){
+              flipHorizontallyAroundCenter();
+              isFacingRight = true;
+            }
             current = PlayerState.running;          
             dx += moveSpeed;
             break;
